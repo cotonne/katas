@@ -5,3 +5,6 @@ A good exercise from the book "How Google Tests Software" (James A. Whittaker, J
 
 ## Monad
 An exercise to understand and see how you can add monad and side-effect free functions to your code
+
+## Date Range
+How to deal with multiples small requirements to format text?
