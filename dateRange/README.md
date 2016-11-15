@@ -8,12 +8,12 @@ When I display the date range
 Then I should print "Between November 9 and 14"
 
 ### Different months
-Given a date range with start and end dates on the same month (for example : Oct.  9/to Nov. 14)   
+Given a date range with start and end dates on different months (for example : Oct.  9/to Nov. 14)   
 When I display the date range  
 Then I should print "Between October 9 and November 14"
 
 ### Differents years
-Given a date range with start and end dates on the same month (for example : Oct.  9, 2016/to Nov. 14, 2017)  
+Given a date range with start and end dates on different years (for example : Oct.  9, 2016/to Nov. 14, 2017)  
 When I display the date range  
 Then I should print "Between October 9, 2016 and November 14, 2017"
 
@@ -23,7 +23,7 @@ When I display the date range
 Then I should print "Thursday, the 10th of November"
 
 ### Otherwise
-Given a date range with start defined at "a day in the month" (let say today is Nov. 1, 2017 and start date is Oct. 10, 2016)  
+Given a date range with start defined at a day in another year (let say today is Nov. 1, 2017 and start date is Oct. 10, 2016)  
 When I display the date range  
 Then I should print "Thursday, the 10th of October 2016"
 
