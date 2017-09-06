@@ -12,3 +12,6 @@ How to deal with multiples small requirements to format text?
 
 ## Refactor my Controller
 Time to do a clean refactoring of a controller
+
+## Wallet
+How many does I have in my wallet? Try to introduce Money & Monoid patterns.
