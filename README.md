@@ -15,3 +15,7 @@ Time to do a clean refactoring of a controller
 
 ## Wallet
 How many does I have in my wallet? Try to introduce Money & Monoid patterns.
+
+## Evolution of trust
+Based on the [Evolution of trust|http://ncase.me/trust/], you have to implement
+the game using an actor-based framework.
