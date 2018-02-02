@@ -19,3 +19,8 @@ How many does I have in my wallet? Try to introduce Money & Monoid patterns.
 ## Evolution of trust
 Based on the [Evolution of trust|http://ncase.me/trust/], you have to implement
 the game using an actor-based framework.
+
+## 50 shades of fizzbuzz
+Write fizzbuzz in all ways you know.
+Have a look to  https://github.com/crista/exercises-in-programming-style
+
