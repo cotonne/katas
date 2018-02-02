@@ -1,10 +1,10 @@
 package example
 
-import example.PolymorphicApproach.factory
+import example.DDDApproach.Messages.Message
 
-import scala.concurrent.{Await, Future}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
+import scala.concurrent.{Await, Future}
 
 // https://github.com/crista/exercises-in-programming-style
 
@@ -112,11 +112,6 @@ object PartialFunctionApproach {
   def apply(i: Int): String = composition.apply(i)
 }
 
-object FreeMonadApproach {
-
-}
-
-
 object EventBasedApproach {
 
   // Command Pattern?
@@ -148,7 +143,6 @@ object EitherMonadApproach {
   }
 }
 
-
 object FutureApproach {
   private def fizz(i: Int) = if (i % 3 == 0) Some("fizz") else None
 
@@ -163,7 +157,6 @@ object FutureApproach {
     Await.result(result, 1 second).getOrElse("" + i)
   }
 }
-
 
 object PolymorphicApproach {
 
@@ -206,23 +199,36 @@ object DDDApproach {
     def asMessage = Message(i.toString)
   }
 
-  case class Message(word: String)
+  object Messages {
 
-  case class Word(multipleOf: Number, message: Message)
+    sealed case class Message(word: String)
 
-  private val fizz = Word(Number(3), Message("fizz"))
-  private val buzz = Word(Number(5), Message("buzz"))
-  private val fizzbuzz = Word(Number(15), Message("fizzbuzz"))
+    val FIZZ = Message("fizz")
+    val BUZZ = Message("buzz")
+    val FIZZBUZZ = Message("fizzbuzz")
+  }
+
+  case class Word(multiple: Number, message: Message) {
+    def isMultipleOf(number: Number): Boolean = number.isMultipleOf(multiple)
+  }
+
+  private val fizz = Word(Number(3), Messages.FIZZ)
+  private val buzz = Word(Number(5), Messages.BUZZ)
+  private val fizzbuzz = Word(Number(15), Messages.FIZZBUZZ)
 
 
-  def apply(number: Number): Message = {
-    for (word <- Seq(fizzbuzz, buzz, fizz)) {
-      if (number.isMultipleOf(word.multipleOf)) return word.message
-    }
-    number.asMessage
+  def apply(number: Number): Message = number match {
+    case _ if fizzbuzz.isMultipleOf(number) => fizzbuzz.message
+    case _ if buzz.isMultipleOf(number) => buzz.message
+    case _ if fizz.isMultipleOf(number) => fizz.message
+    case _ => number.asMessage
   }
 
   def apply(i: Int): String = DDDApproach(Number(i)).word
+}
+
+object ExceptionApproach {
+
 }
 
 // Stream approach
@@ -231,22 +237,22 @@ object GenerateAllAndTakeFirstApproach {
 
 }
 
-
 object ParserCombinatorApproach {
   // (buzz, i)
   //
+
+  // def x : Parser
 }
 
 object ActorBasedApproach {
 
 }
 
-
 object MachineLearningApproach {
   // Ou calcul avec une matrice?
 }
 
-
+// Procedural approach?
 object SideEffectApproach {
   // var au lieu de val
 }
@@ -254,4 +260,16 @@ object SideEffectApproach {
 object LazyLoadingApproach {
   // lazy val
   def apply(i: Int) = ???
+}
+
+object FreeMonadApproach {
+
+}
+
+object DecoratorApproach {
+  // x -> if(x) => modify, call next
+}
+
+object StateApproach {
+  // Fizz -> FizzBuzz
 }
