@@ -1,12 +1,14 @@
 package example
 
+import example.PolymorphicApproach.factory
+
 import scala.concurrent.{Await, Future}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
 
 // https://github.com/crista/exercises-in-programming-style
 
-object FoldAproach {
+object FoldApproach {
   private def fizz(i: Int) = if (i % 3 == 0) Some("fizz") else None
 
   private def buzz(i: Int) = if (i % 5 == 0) Some("buzz") else None
@@ -18,7 +20,21 @@ object FoldAproach {
       .foldLeft(None: Option[String])((a, b) => a.map(_ + b).orElse(Some(b)))
     result.getOrElse("" + i)
   }
+}
 
+object FilterApproach {
+  private def fizz: (Int, String) = (3, "fizz")
+
+  private def buzz: (Int, String) = (5, "buzz")
+
+  def apply(i: Int): String = {
+    val functions: Seq[(Int, String)] = Seq(fizz, buzz)
+    val result = functions
+      .filter(i % _._1 == 0)
+      .map(_._2(i))
+      .foldLeft("")(_ + _)
+    if (result.isEmpty) "" + i else result
+  }
 }
 
 object ImperativeApproach {
@@ -30,6 +46,8 @@ object ImperativeApproach {
   }
 }
 
+// Même chose que la monad?
+// S'arrête si on trouve le résultat
 object ChainOfResponsibilityApproach {
 
   case class Step(value: Int, answer: Int => String)
@@ -53,12 +71,21 @@ object ChainOfResponsibilityApproach {
   def apply(i: Int): String = Chain(links, i)
 }
 
-object PatternMatching {
+object PatternMatchingApproach {
   def apply(i: Int): String = i match {
     case _ if i % 15 == 0 => "fizzbuzz"
     case _ if i % 5 == 0 => "buzz"
     case _ if i % 3 == 0 => "fizz"
     case _ => "" + i
+  }
+}
+
+object PatternMatchingOtherApproach {
+  def apply(i: Int): String = i match {
+    case n if n % 15 == 0 => "fizzbuzz"
+    case n if n % 5 == 0 => "buzz"
+    case n if n % 3 == 0 => "fizz"
+    case n => "" + n
   }
 }
 
@@ -89,10 +116,11 @@ object FreeMonadApproach {
 
 }
 
+
 object EventBasedApproach {
 
   // Command Pattern?
-  // Actor Pattern?
+  // Actor Pattern? (4 actors et s'échangent entre eux
   sealed trait Command
 
   case class FizzBuzz() extends Command
@@ -105,15 +133,6 @@ object EventBasedApproach {
 
 }
 
-object SideEffectApproach {
-  // var au lieu de val
-}
-
-object LazyLoadingApproach {
-  // lazy val
-  def apply(i: Int) = ???
-}
-
 object EitherMonadApproach {
   private def fizz(i: Int) = if (i % 3 == 0) Left("fizz") else Right(i)
 
@@ -123,15 +142,12 @@ object EitherMonadApproach {
 
   private def default(i: Int) = Left("" + i)
 
+  // Remplacable par un fold
   def apply(i: Int): String = fizzbuzz(i).flatMap(buzz).flatMap(fizz).flatMap(default) match {
     case Left(x) => x
   }
 }
 
-// Ou calcul avec une matrice?
-object MachineLearningApproach {
-
-}
 
 object FutureApproach {
   private def fizz(i: Int) = if (i % 3 == 0) Some("fizz") else None
@@ -146,4 +162,96 @@ object FutureApproach {
 
     Await.result(result, 1 second).getOrElse("" + i)
   }
+}
+
+
+object PolymorphicApproach {
+
+  sealed trait Word {
+    def say(i: Int): String
+  }
+
+  class Fizz extends Word {
+    override def say(i: Int): String = "fizz"
+  }
+
+  class Buzz extends Word {
+    override def say(i: Int): String = "buzz"
+  }
+
+  class FizzBuzz extends Word {
+    override def say(i: Int): String = "fizzbuzz"
+  }
+
+  class Default extends Word {
+    override def say(i: Int): String = "" + i
+  }
+
+  def factory(i: Int): Word = i match {
+    case _ if i % 15 == 0 => new FizzBuzz
+    case _ if i % 5 == 0 => new Buzz
+    case _ if i % 3 == 0 => new Fizz
+    case _ => new Default
+  }
+
+  def apply(i: Int): String = factory(i).say(i)
+}
+
+object DDDApproach {
+
+  // object callisthenics Approach?
+  case class Number(i: Int) {
+    def isMultipleOf(multiple: Number): Boolean = i % multiple.i == 0
+
+    def asMessage = Message(i.toString)
+  }
+
+  case class Message(word: String)
+
+  case class Word(multipleOf: Number, message: Message)
+
+  private val fizz = Word(Number(3), Message("fizz"))
+  private val buzz = Word(Number(5), Message("buzz"))
+  private val fizzbuzz = Word(Number(15), Message("fizzbuzz"))
+
+
+  def apply(number: Number): Message = {
+    for (word <- Seq(fizzbuzz, buzz, fizz)) {
+      if (number.isMultipleOf(word.multipleOf)) return word.message
+    }
+    number.asMessage
+  }
+
+  def apply(i: Int): String = DDDApproach(Number(i)).word
+}
+
+// Stream approach
+// On traite les 4 et on prend le premier
+object GenerateAllAndTakeFirstApproach {
+
+}
+
+
+object ParserCombinatorApproach {
+  // (buzz, i)
+  //
+}
+
+object ActorBasedApproach {
+
+}
+
+
+object MachineLearningApproach {
+  // Ou calcul avec une matrice?
+}
+
+
+object SideEffectApproach {
+  // var au lieu de val
+}
+
+object LazyLoadingApproach {
+  // lazy val
+  def apply(i: Int) = ???
 }
