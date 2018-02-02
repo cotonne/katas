@@ -24,3 +24,7 @@ the game using an actor-based framework.
 Write fizzbuzz in all ways you know.
 Have a look to  https://github.com/crista/exercises-in-programming-style
 
+## Human FizzBuzz
+ - Explaining complex concepts in your code by playing with humans
+ - Trying to explain a better architecture in your code by playing
+
