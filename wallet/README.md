@@ -21,6 +21,12 @@ And some coins:
  
 What is the value of my wallet in euro?
 
+## Next steps
+
+ - Add and remove differents currencies
+ - Have a different currenncy rate when buying or selling currencies
+ - Ultimate : optimize buying of currencies
+
 ## Notions
 
  * Pattern [Money](https://martinfowler.com/eaaCatalog/money.html)
