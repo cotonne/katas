@@ -45,6 +45,8 @@ object ImperativeApproach {
     "" + i
   }
 }
+// Java Enum approach?
+
 
 // Même chose que la monad?
 // S'arrête si on trouve le résultat
@@ -272,4 +274,22 @@ object DecoratorApproach {
 
 object StateApproach {
   // Fizz -> FizzBuzz
+}
+
+object TreeVisitorApproach {
+
+}
+
+object EnterpriseApproach {
+
+}
+
+object ProbabilisticApproach {
+
+}
+
+object XtremConstraintsApproach {
+  // No If
+  // No Primitive
+  // Only Void
 }
