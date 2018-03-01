@@ -293,3 +293,7 @@ object XtremConstraintsApproach {
   // No Primitive
   // Only Void
 }
+
+object BackToBasicsApproach {
+  // Dont use number
+}
