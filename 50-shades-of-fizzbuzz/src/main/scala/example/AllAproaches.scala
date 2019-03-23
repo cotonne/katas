@@ -45,6 +45,7 @@ object ImperativeApproach {
     "" + i
   }
 }
+
 // Java Enum approach?
 
 
@@ -68,7 +69,11 @@ object ChainOfResponsibilityApproach {
     def ==>(next: Link): Link = Link(s, next)
   }
 
-  private val links = Step(15, _ => "fizzbuzz") ==> (Step(5, _ => "buzz") ==> (Step(3, _ => "fizz") ==> (Step(1, i => "" + i) ==> null)))
+  private val links = Step(15, _ => "fizzbuzz")
+    ==>(Step(5, _ => "buzz")
+    ==> (Step(3, _ => "fizz")
+    ==> (Step(1, i => "" + i)
+    ==> null)))
 
   def apply(i: Int): String = Chain(links, i)
 }
